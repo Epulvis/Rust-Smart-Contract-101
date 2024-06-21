@@ -1,3 +1,23 @@
+type Error = variant { NotFound : record { msg : text } };
+type Result = variant { Ok : Service; Err : Error };
+type Service = record {
+  id : nat64;
+  status : text;
+  updated_at : opt nat64;
+  device_model : text;
+  issue_description : text;
+  created_at : nat64;
+  customer_name : text;
+};
+type ServicePayload = record {
+  status : text;
+  device_model : text;
+  issue_description : text;
+  customer_name : text;
+};
 service : {
-    "greet": (text) -> (text) query;
+  add_service : (ServicePayload) -> (opt Service);
+  delete_service : (nat64) -> (Result);
+  get_service : (nat64) -> (Result) query;
+  update_service : (nat64, ServicePayload) -> (Result);
 }
